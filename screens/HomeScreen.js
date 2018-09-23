@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
+import * as omikuji from '../constants/omikuji';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -9,6 +9,9 @@ export default class HomeScreen extends React.Component {
 
   constructor (props) {
     super(props);
+    this.state = {
+      omikujiResult: omikuji.results[0],
+    };
     this.onTryPress = this.onTryPress.bind(this);
   }
 
@@ -21,7 +24,7 @@ export default class HomeScreen extends React.Component {
         <Text style={styles.topKaiunText}>今日の運勢は？</Text>
         <Image
           style={styles.daikichiImage}
-          source={require('../assets/images/daikichi.png')}
+          source={this.state.omikujiResult.imageSource}
           />
         <TouchableOpacity style={styles.tryButton} onPress={this.onTryPress}>
           <Text style={styles.tryButtonText}>おみくじを引く</Text>
@@ -31,7 +34,9 @@ export default class HomeScreen extends React.Component {
   }
 
   onTryPress () {
-    alert('大吉！');
+    this.setState({
+      omikujiResult: omikuji.getRandomResult(),
+    });
   }
 }
 
@@ -40,7 +45,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
   topBlock: {
   },
