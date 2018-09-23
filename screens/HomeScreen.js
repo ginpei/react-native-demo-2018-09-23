@@ -3,8 +3,16 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as omikuji from '../constants/omikuji';
 
 export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
+  static navigationOptions = ({ navigation }) => {
+    const onListPress = () => HomeScreen.onListPress(navigation);
+    return {
+      headerTitle: 'Hell World!',
+      headerRight: (
+        <TouchableOpacity style={styles.headerRight} onPress={onListPress}>
+          <Text>一覧</Text>
+        </TouchableOpacity>
+      ),
+    };
   };
 
   get resultImageSource() {
@@ -41,6 +49,10 @@ export default class HomeScreen extends React.Component {
     );
   }
 
+  static onListPress (navigation) {
+    alert('list');
+  }
+
   onTryPress () {
     this.setState({
       omikujiResult: omikuji.getRandomResult(),
@@ -49,6 +61,9 @@ export default class HomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  headerRight: {
+    padding: 16,
+  },
   container: {
     alignItems: 'center',
     backgroundColor: '#fff',
