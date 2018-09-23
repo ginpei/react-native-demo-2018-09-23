@@ -32,6 +32,7 @@ export default class LinksScreen extends React.Component {
     return (
       <View style={styles.container}>
         <FlatList
+          style={styles.linkList}
           data={this.links}
           keyExtractor={(v) => v.url}
           renderItem={({ item }) => {
@@ -65,8 +66,16 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 15,
   },
+  linkList: {
+    borderColor: '#ccc',
+    borderStyle: 'solid',
+    borderTopWidth: 1,
+  },
   linkItem: {
     backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    borderStyle: 'solid',
     flexDirection: 'row',
     padding: 16,
   },
