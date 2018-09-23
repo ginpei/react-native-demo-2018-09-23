@@ -25,7 +25,7 @@ function OmikujiResult (props = {}) {
 export default class OmikujiListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: 'おみくじ結果一覧',
+      headerTitle: 'おみくじ履歴',
     };
   };
 
