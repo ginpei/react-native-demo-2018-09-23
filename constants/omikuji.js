@@ -41,3 +41,15 @@ export async function fetchResults () {
   const omikujiResults = fetchResult.json();
   return omikujiResults;
 }
+
+export function postResult ({ name, result }) {
+  const url = 'https://us-central1-omikuji-30c35.cloudfunctions.net/omikuji';
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, result }),
+  });
+}

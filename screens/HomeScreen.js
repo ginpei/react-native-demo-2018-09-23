@@ -62,6 +62,11 @@ export default class HomeScreen extends React.Component {
     this.setState({
       omikujiResult,
     });
+
+    omikuji.postResult({
+      name: 'Ginpei',
+      result: omikujiResult.id,
+    })
   }
 }
 
