@@ -35,7 +35,7 @@ export function getResultOf (id) {
   return results.find((v) => v.id === id);
 }
 
-export async function fetchResult () {
+export async function fetchResults () {
   const url = 'https://us-central1-omikuji-30c35.cloudfunctions.net/omikuji';
   const fetchResult = await fetch(url);
   const omikujiResults = fetchResult.json();

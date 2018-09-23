@@ -73,7 +73,7 @@ export default class OmikujiListScreen extends React.Component {
   }
 
   async componentWillMount () {
-    const results = await omikuji.fetchResult();
+    const results = await omikuji.fetchResults();
     this.setState({
       fetching: false,
       results,
