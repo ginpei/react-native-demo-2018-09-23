@@ -52,8 +52,10 @@ export default class HomeScreen extends React.Component {
   }
 
   static onListPress (navigation) {
+    const results = navigation.getParam('results', [])
+      .map((result) => ({...result})); // clone
     navigation.navigate('OmikujiList', {
-      results: navigation.getParam('results', []),
+      results,
     });
   }
 
