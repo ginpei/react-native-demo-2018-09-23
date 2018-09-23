@@ -29,6 +29,13 @@ export default class OmikujiListScreen extends React.Component {
     };
   };
 
+  get results () {
+    const results = this.props.navigation.getParam('results', [])
+      .map((v) => { v.key = v.createdAt.toString(); return v; })
+      .sort((v1, v2) => v2.createdAt - v1.createdAt);
+    return results;
+  }
+
 //   constructor (props) {
 //     super(props);
 //     this.state = {
@@ -37,18 +44,15 @@ export default class OmikujiListScreen extends React.Component {
 //   }
 
   render() {
-    const results = this.props.navigation.getParam('results', [])
-      .map((v) => { v.key = v.createdAt.toString(); return v; })
-      .sort((v1, v2) => v2.createdAt - v1.createdAt);
     return (
       <View style={styles.container}>
-        {results.length < 1 ? (
+        {this.results.length < 1 ? (
           <View style={styles.noResultWrapper}>
             <Text>No results.</Text>
           </View>
         ) : (
           <FlatList
-            data={results}
+            data={this.results}
             renderItem={({ item }) => <OmikujiResult {...item}/>}
             />
         )}
