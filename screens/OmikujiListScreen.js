@@ -77,7 +77,7 @@ export default class OmikujiListScreen extends React.Component {
     this.setState({
       fetching: false,
       results,
-    })
+    });
   }
 }
 
