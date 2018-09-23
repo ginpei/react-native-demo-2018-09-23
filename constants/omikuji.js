@@ -1,26 +1,26 @@
 export const results = [
   {
-    id: 'daikichi',
+    id: 0,
     title: '大吉',
     imageSource: require('../assets/images/daikichi.png'),
   },
   {
-    id: 'chukichi',
+    id: 1,
     title: '中吉',
     imageSource: require('../assets/images/chukichi.png'),
   },
   {
-    id: 'shokichi',
+    id: 2,
     title: '小吉',
     imageSource: require('../assets/images/shokichi.png'),
   },
   {
-    id: 'suekichi',
+    id: 3,
     title: '末吉',
     imageSource: require('../assets/images/suekichi.png'),
   },
   {
-    id: 'daikyo',
+    id: 4,
     title: '大凶',
     imageSource: require('../assets/images/daikyo.png'),
   },
@@ -33,4 +33,11 @@ export function getRandomResult () {
 
 export function getResultOf (id) {
   return results.find((v) => v.id === id);
+}
+
+export async function fetchResult () {
+  const url = 'https://us-central1-omikuji-30c35.cloudfunctions.net/omikuji';
+  const fetchResult = await fetch(url);
+  const omikujiResults = fetchResult.json();
+  return omikujiResults;
 }

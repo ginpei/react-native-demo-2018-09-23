@@ -15,8 +15,6 @@ export default class HomeScreen extends React.Component {
     };
   };
 
-  results = [];
-
   get resultImageSource() {
     return this.state.omikujiResult && this.state.omikujiResult.imageSource;
   }
@@ -61,13 +59,6 @@ export default class HomeScreen extends React.Component {
 
   onTryPress () {
     const omikujiResult = omikuji.getRandomResult();
-    this.results.push({
-      createdAt: Date.now(),
-      id: omikujiResult.id,
-    });
-    this.props.navigation.setParams({
-      results: this.results,
-    });
     this.setState({
       omikujiResult,
     });

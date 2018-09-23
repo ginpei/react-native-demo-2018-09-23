@@ -3,9 +3,9 @@ import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 import * as omikuji from '../constants/omikuji';
 
 function OmikujiResult (props = {}) {
-  const result = omikuji.getResultOf(props.id);
+  const result = omikuji.getResultOf(props.result);
   if (!result) {
-    throw new Error(`Unknown omikuji ID: ${props.id}`);
+    throw new Error(`Unknown omikuji ID: ${props.result}`);
   }
 
   return (
@@ -16,7 +16,10 @@ function OmikujiResult (props = {}) {
         source={result.imageSource}
         />
       <Text style={styles.omikujiDateText}>
-        {new Date(props.createdAt).toLocaleString()}
+        {new Date(props.created_at).toLocaleString()}
+      </Text>
+      <Text style={styles.omikujiDateText}>
+        {`By ${props.name}`}
       </Text>
     </View>
   );
@@ -30,34 +33,51 @@ export default class OmikujiListScreen extends React.Component {
   };
 
   get results () {
-    const results = this.props.navigation.getParam('results', [])
-      .map((v) => { v.key = v.createdAt.toString(); return v; })
-      .sort((v1, v2) => v2.createdAt - v1.createdAt);
-    return results;
+    return this.state.results
+      .sort((v1, v2) => {
+        const t1 = new Date(v1.created_at).getTime();
+        const t2 = new Date(v2.created_at).getTime();
+        return t2 - t1;
+      });
   }
 
-//   constructor (props) {
-//     super(props);
-//     this.state = {
-//     };
-//     this.onTryPress = this.onTryPress.bind(this);
-//   }
+  constructor (props) {
+    super(props);
+    this.state = {
+      fetching: true,
+      results: [],
+    };
+    // this.onTryPress = this.onTryPress.bind(this);
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        {this.results.length < 1 ? (
+        {this.state.fetching ? (
+          <View style={styles.noResultWrapper}>
+            <Text>Loading...</Text>
+          </View>
+        ) : this.results.length < 1 ? (
           <View style={styles.noResultWrapper}>
             <Text>No results.</Text>
           </View>
         ) : (
           <FlatList
             data={this.results}
+            keyExtractor={(item) => item.created_at}
             renderItem={({ item }) => <OmikujiResult {...item}/>}
             />
         )}
       </View>
     );
+  }
+
+  async componentWillMount () {
+    const results = await omikuji.fetchResult();
+    this.setState({
+      fetching: false,
+      results,
+    })
   }
 }
 
