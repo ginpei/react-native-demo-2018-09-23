@@ -9,13 +9,17 @@ export default class LinksScreen extends React.Component {
   links = [
     {
       icon: require('../assets/images/GitHub-Mark-64px.png'),
-      label: 'ギンペイ',
-      url: 'https://github.com/ginpei',
+      label: 'ソースコード',
+      url: 'https://github.com/ginpei/react-native-demo-2018-09-23',
     },
     {
       icon: require('../assets/images/GitHub-Mark-64px.png'),
       label: 'ワークショップ詳細',
       url: 'https://github.com/katsumeshi/react-native-workshop-0922',
+    },
+    {
+      label: 'モバイルアプリ開発経aaa験５年以上！Yuki氏によるReact Nativeワークショップ | Frog',
+      url: 'https://frogagent.com/event/yuki-reactnative/',
     },
   ];
 
@@ -37,7 +41,11 @@ export default class LinksScreen extends React.Component {
                 style={styles.linkItem}
                 onPress={onPress}
                 >
-                <Image style={styles.linkIcon} source={item.icon}/>
+                {item.icon ? (
+                  <Image style={styles.linkIcon} resizeMode="contain" source={item.icon}/>
+                ) : (
+                  <View style={styles.linkIcon}/>
+                )}
                 <Text style={styles.linkText}>{item.label}</Text>
               </TouchableOpacity>
             );
@@ -63,12 +71,13 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   linkIcon: {
+    flex: 0,
     height: 25,
     marginRight: 16,
-    resizeMode: 'contain',
     width: 25,
   },
   linkText: {
+    flex: 1,
     fontSize: 20,
   },
 });
