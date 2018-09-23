@@ -9,7 +9,7 @@ export default class HomeScreen extends React.Component {
       headerTitle: 'Hell World!',
       headerRight: (
         <TouchableOpacity style={styles.headerRight} onPress={onListPress}>
-          <Text>一覧</Text>
+          <Text>履歴</Text>
         </TouchableOpacity>
       ),
     };
