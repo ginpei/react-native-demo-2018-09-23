@@ -50,7 +50,9 @@ export default class HomeScreen extends React.Component {
   }
 
   static onListPress (navigation) {
-    alert('list');
+    navigation.navigate('OmikujiList', {
+      message: 'Hell of Omikuji',
+    });
   }
 
   onTryPress () {
