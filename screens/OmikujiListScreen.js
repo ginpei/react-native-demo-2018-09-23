@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as omikuji from '../constants/omikuji';
 
 function OmikujiResult (props = {}) {
@@ -27,18 +27,36 @@ function OmikujiResult (props = {}) {
 
 export default class OmikujiListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
+    const onlyMe = navigation.getParam('onlyMe', true);
+
+    const onTogglePress = () => {
+      navigation.setParams({
+        onlyMe: !onlyMe,
+      });
+    };
+
     return {
+      headerRight: (
+        <TouchableOpacity style={styles.headerRight} onPress={onTogglePress}>
+          <Text>{onlyMe ? '全員' : '自分'}</Text>
+        </TouchableOpacity>
+      ),
       headerTitle: 'おみくじ履歴',
     };
   };
 
   get results () {
-    return this.state.results
-      .sort((v1, v2) => {
-        const t1 = new Date(v1.created_at).getTime();
-        const t2 = new Date(v2.created_at).getTime();
-        return t2 - t1;
-      });
+    const onlyMe = this.props.navigation.getParam('onlyMe', true);
+    const original = this.state.results;
+    const filtered = onlyMe
+      ? original.filter((v) => v.name === 'Ginpei')
+      : original;
+    const sorted = filtered.sort((v1, v2) => {
+      const t1 = new Date(v1.created_at).getTime();
+      const t2 = new Date(v2.created_at).getTime();
+      return t2 - t1;
+    });
+    return sorted;
   }
 
   constructor (props) {
@@ -82,6 +100,9 @@ export default class OmikujiListScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  headerRight: {
+    padding: 16,
+  },
   container: {
     flex: 1,
   },
