@@ -7,10 +7,14 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
+  get resultImageSource() {
+    return this.state.omikujiResult && this.state.omikujiResult.imageSource;
+  }
+
   constructor (props) {
     super(props);
     this.state = {
-      omikujiResult: omikuji.results[0],
+      omikujiResult: null,
     };
     this.onTryPress = this.onTryPress.bind(this);
   }
@@ -22,10 +26,14 @@ export default class HomeScreen extends React.Component {
           style={styles.topKaiunImage}
           source={require('../assets/images/kaiun.png')}/>
         <Text style={styles.topKaiunText}>今日の運勢は？</Text>
-        <Image
-          style={styles.daikichiImage}
-          source={this.state.omikujiResult.imageSource}
-          />
+        {this.resultImageSource
+          ? <Image
+            style={styles.daikichiImage}
+            resizeMode="contain"
+            source={this.resultImageSource}
+            />
+          : <View style={styles.daikichiImage} />
+        }
         <TouchableOpacity style={styles.tryButton} onPress={this.onTryPress}>
           <Text style={styles.tryButtonText}>おみくじを引く</Text>
         </TouchableOpacity>
@@ -46,6 +54,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flex: 1,
     justifyContent: 'space-around',
+    padding: 16,
   },
   topBlock: {
   },
@@ -57,13 +66,12 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   daikichiImage: {
-    resizeMode: 'contain',
     height: 300,
     width: 200,
   },
   tryButton: {
     backgroundColor: '#036',
-    padding: 8,
+    padding: 16,
   },
   tryButtonText: {
     color: 'white',
